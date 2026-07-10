@@ -1,0 +1,140 @@
+# ╔═══════════════════════════════════════════════════════════════╗
+# ║              PolarSMP - Rewards Configuration                 ║
+# ╚═══════════════════════════════════════════════════════════════╝
+
+# ---------------------------------------------------------------
+# REWARDS LIST
+# Each reward has:
+#   id               - Unique identifier
+#   display-name     - MiniMessage display name shown in GUI
+#   material         - GUI icon material
+#   lore             - MiniMessage lore lines (description)
+#   requirement-type - KILLS / COINS / STREAK / KILL_RANK_1 / HOLD_RANK / TOTAL_KILLS
+#   requirement-value- Target value required to unlock
+#   reward-type      - COINS / ITEM / COMMAND
+#   reward-amount    - Amount for COINS reward type
+#   reward-material  - Material name for ITEM reward type
+#   reward-command   - Console command for COMMAND reward type (%player% = player name)
+#   repeatable       - If true, can be claimed again after completing again
+# ---------------------------------------------------------------
+rewards:
+  - id: first_blood
+    display-name: "<red><bold>🩸 First Blood</bold></red>"
+    material: REDSTONE
+    lore:
+      - "<gray>Get your first PvP kill.</gray>"
+      - "<gray>The journey of a thousand kills</gray>"
+      - "<gray>begins with a single one.</gray>"
+    requirement-type: TOTAL_KILLS
+    requirement-value: 1
+    reward-type: COINS
+    reward-amount: 50
+    repeatable: false
+
+  - id: kill_count_10
+    display-name: "<gold><bold>⚔ Slayer I</bold></gold>"
+    material: IRON_SWORD
+    lore:
+      - "<gray>Accumulate 10 total PvP kills.</gray>"
+      - "<gray>Proven fighter.</gray>"
+    requirement-type: TOTAL_KILLS
+    requirement-value: 10
+    reward-type: COINS
+    reward-amount: 100
+    repeatable: false
+
+  - id: kill_count_50
+    display-name: "<gold><bold>⚔ Slayer II</bold></gold>"
+    material: DIAMOND_SWORD
+    lore:
+      - "<gray>Accumulate 50 total PvP kills.</gray>"
+      - "<gray>Seasoned warrior.</gray>"
+    requirement-type: TOTAL_KILLS
+    requirement-value: 50
+    reward-type: COINS
+    reward-amount: 300
+    repeatable: false
+
+  - id: kill_count_100
+    display-name: "<gradient:#FF8C00:#FF4500><bold>⚔ Slayer III</bold></gradient>"
+    material: NETHERITE_SWORD
+    lore:
+      - "<gray>Accumulate 100 total PvP kills.</gray>"
+      - "<gray>Elite combatant.</gray>"
+    requirement-type: TOTAL_KILLS
+    requirement-value: 100
+    reward-type: COINS
+    reward-amount: 750
+    repeatable: false
+
+  - id: streak_5
+    display-name: "<yellow><bold>🔥 On Fire</bold></yellow>"
+    material: BLAZE_POWDER
+    lore:
+      - "<gray>Achieve a 5-kill streak.</gray>"
+      - "<gray>Unstoppable in battle.</gray>"
+    requirement-type: STREAK
+    requirement-value: 5
+    reward-type: COINS
+    reward-amount: 100
+    repeatable: false
+
+  - id: streak_10
+    display-name: "<gradient:#FF8C00:#FF4500><bold>🔥 Inferno</bold></gradient>"
+    material: BLAZE_ROD
+    lore:
+      - "<gray>Achieve a 10-kill streak.</gray>"
+      - "<gray>A force of nature.</gray>"
+    requirement-type: STREAK
+    requirement-value: 10
+    reward-type: COINS
+    reward-amount: 250
+    repeatable: false
+
+  - id: streak_20
+    display-name: "<gradient:#FF0000:#8B0000><bold>💀 GODLIKE</bold></gradient>"
+    material: NETHER_STAR
+    lore:
+      - "<gray>Achieve a 20-kill streak.</gray>"
+      - "<gray>Mythical skill.</gray>"
+    requirement-type: STREAK
+    requirement-value: 20
+    reward-type: COINS
+    reward-amount: 1000
+    repeatable: false
+
+  - id: coins_1000
+    display-name: "<gold><bold>🪙 Thousand Club</bold></gold>"
+    material: GOLD_INGOT
+    lore:
+      - "<gray>Accumulate 1,000 total coins.</gray>"
+      - "<gray>Smart earner.</gray>"
+    requirement-type: COINS
+    requirement-value: 1000
+    reward-type: COINS
+    reward-amount: 200
+    repeatable: false
+
+  - id: kill_rank_1
+    display-name: "<gradient:#FFD700:#FF8C00><bold>👑 Kingslayer</bold></gradient>"
+    material: GOLDEN_HELMET
+    lore:
+      - "<gray>Kill the Rank 1 holder.</gray>"
+      - "<gray>The ultimate achievement.</gray>"
+    requirement-type: KILL_RANK_1
+    requirement-value: 1
+    reward-type: COINS
+    reward-amount: 500
+    repeatable: true
+
+  - id: hold_rank_1
+    display-name: "<gradient:#FFD700:#FF8C00><bold>👑 The Apex</bold></gradient>"
+    material: GOLDEN_CHESTPLATE
+    lore:
+      - "<gray>Hold Rank 1 for any amount of time.</gray>"
+      - "<gray>You are the best on the server.</gray>"
+    requirement-type: HOLD_RANK
+    requirement-value: 1
+    reward-type: COMMAND
+    reward-command: "say %player% has achieved the pinnacle of PolarSMP!"
+    repeatable: false

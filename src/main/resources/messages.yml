@@ -1,0 +1,154 @@
+# ╔═══════════════════════════════════════════════════════════════╗
+# ║            PolarSMP - Messages Configuration                  ║
+# ║   All messages use MiniMessage format for rich text           ║
+# ║   Docs: https://docs.advntr.dev/minimessage/format.html       ║
+# ╚═══════════════════════════════════════════════════════════════╝
+
+# ---------------------------------------------------------------
+# PREFIX
+# ---------------------------------------------------------------
+prefix: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient>"
+
+# ---------------------------------------------------------------
+# RANK SYSTEM MESSAGES
+# ---------------------------------------------------------------
+rank:
+  # Shown to the player who GAINED a rank via PvP
+  gained: "<newline><gradient:#FFD700:#FF8C00>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</gradient><newline><bold><gradient:#FFD700:#FFA500>       👑  RANK ACQUIRED  👑</gradient></bold><newline><gray>You defeated <gold><victim></gold> and claimed</gray><newline><bold><gold>      ✦ RANK #{rank} ✦</gold></bold><newline><gray>Your perks have been applied!</gray><newline><gradient:#FFD700:#FF8C00>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</gradient><newline>"
+
+  # Shown to the player who LOST a rank
+  lost: "<newline><gradient:#FF4444:#CC0000>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</gradient><newline><bold><red>       ⚔  RANK STOLEN  ⚔</red></bold><newline><gray><red><killer></red> has claimed your</gray><newline><bold><red>      ✦ RANK #{rank} ✦</red></bold><newline><gray>Fight back to reclaim your throne!</gray><newline><gradient:#FF4444:#CC0000>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</gradient><newline>"
+
+  # Shown to players not involved when a rank transfer occurs
+  transfer-broadcast: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <bold><gold><killer></gold></bold> <gray>claimed</gray> <bold><red>Rank #{rank}</red></bold> <gray>from</gray> <bold><red><victim></red></bold><gray>!</gray>"
+
+  # Shown when an admin uses /polarrank set
+  admin-set: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <gray>Admin has assigned</gray> <gold>Rank #{rank}</gold> <gray>to</gray> <gold><player></gold><gray>.</gray>"
+
+  # Shown when an admin uses /polarrank clear
+  admin-clear: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <gray>Admin has stripped</gray> <gold><player></gold><gray>'s rank.</gray>"
+
+  # /polarrank check output
+  check-self: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <gray>Your current rank:</gray> <gold><rank></gold>"
+  check-other: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <gray><player>'s current rank:</gray> <gold><rank></gold>"
+  check-unranked: "<gray>Unranked</gray>"
+
+  # Season messages
+  season-started: "<newline><gradient:#FFD700:#FF8C00>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</gradient><newline><bold><gradient:#FFD700:#FFA500>      ⚔  POLAR SMP SEASON BEGINS  ⚔</gradient></bold><newline><gray>    A new competitive season has started!</gray><newline><gray>    Fight to claim one of the</gray> <gold>10 exclusive ranks</gold><gray>!</gray><newline><gray>    Ranks have been assigned to eligible players.</gray><newline><gradient:#FFD700:#FF8C00>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</gradient><newline>"
+  season-ended: "<newline><gradient:#FF4444:#CC0000>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</gradient><newline><bold><red>      🏁  POLAR SMP SEASON ENDED  🏁</red></bold><newline><gray>    The season has come to an end!</gray><newline><gray>    All ranks have been stripped.</gray><newline><gradient:#FF4444:#CC0000>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</gradient><newline>"
+
+  # Info display
+  no-season: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <red>No active season. An admin must run /polarrank start.</red>"
+
+# ---------------------------------------------------------------
+# BOUNTY SYSTEM MESSAGES
+# ---------------------------------------------------------------
+bounty:
+  # Actionbar when killer receives coins from a kill
+  coins-received: "<bold><yellow>🪙 +<amount> Coins</yellow></bold>"
+
+  # Actionbar when killer receives bonus coins from killing a ranked player
+  ranked-kill-bonus: "<bold><gold>👑 +<amount> Rank Bonus Coins</gold></bold>"
+
+  # Actionbar when a bounty is claimed (shown to killer)
+  claimed-self: "<bold><gradient:#FFD700:#FFA500>💰 +<amount> Coins</gradient></bold> <gray>claimed from</gray> <gold><victim></gold><gray>!</gray>"
+
+  # Server-wide broadcast when a large bounty is claimed
+  claimed-broadcast: "<newline><gradient:#FF4444:#FFD700>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</gradient><newline><bold><gradient:#FFD700:#FF4444>  ⚔ <killer> CLAIMED <victim>'s BOUNTY! ⚔</gradient></bold><newline><bold><gold>        💰 <amount> COINS 💰</gold></bold><newline><gradient:#FF4444:#FFD700>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</gradient><newline>"
+
+  # Actionbar shown to the VICTIM when their bounty is stolen
+  stolen-from: "<red>💀 Your bounty of</red> <bold><red><amount> Coins</red></bold> <red>was claimed by</red> <bold><red><killer></red></bold><red>!</red>"
+
+  # /polarbounty balance output
+  balance-self: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <gray>Coins:</gray> <gold><coins></gold> <dark_gray>|</dark_gray> <gray>Bounty:</gray> <red><bounty></red>"
+  balance-other: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <gray><player>'s Coins:</gray> <gold><coins></gold> <dark_gray>|</dark_gray> <gray>Bounty:</gray> <red><bounty></red>"
+
+  # Admin give/take
+  admin-give: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <gray>Gave</gray> <gold><amount> Coins</gold> <gray>to</gray> <gold><player></gold><gray>.</gray>"
+  admin-take: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <gray>Took</gray> <gold><amount> Coins</gold> <gray>from</gray> <gold><player></gold><gray>.</gray>"
+  admin-set-bounty: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <gray>Set</gray> <gold><player></gold><gray>'s bounty to</gray> <red><amount></red><gray>.</gray>"
+
+  # Reset stats confirmation
+  reset-confirm: "<gradient:#FF4444:#CC0000>[PolarSMP]</gradient> <bold><red>⚠ WARNING:</red></bold> <gray>This will wipe ALL stats for</gray> <red><player></red><gray>. Run the command again within 10 seconds to confirm.</gray>"
+  reset-done: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <gray>All stats for</gray> <gold><player></gold> <gray>have been reset.</gray>"
+
+# ---------------------------------------------------------------
+# STREAK MESSAGES
+# ---------------------------------------------------------------
+streak:
+  # Chat message for streak milestone (also sends title)
+  milestone: "<gradient:#FF8C00:#FF4500>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</gradient><newline><bold><gradient:#FF8C00:#FF4500>  🔥 KILL STREAK x<streak>  🔥</gradient></bold><newline><gray>  Bonus:</gray> <gold>+<bonus> Coins</gold> <gray>awarded!</gray><newline><gradient:#FF8C00:#FF4500>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</gradient>"
+  milestone-broadcast: "<gradient:#FF8C00:#FF4500>[PolarSMP]</gradient> <bold><gold><player></gold></bold> <gray>is on a</gray> <bold><gradient:#FF8C00:#FF4500>🔥 <streak> Kill Streak!</gradient></bold>"
+
+# ---------------------------------------------------------------
+# ANTI-FARM MESSAGES
+# ---------------------------------------------------------------
+anti-farm:
+  detected: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <red>⚠ Anti-farm cooldown active. Wait</red> <gold><seconds>s</gold> <red>before farming</red> <gold><victim></gold> <red>again.</red>"
+
+# ---------------------------------------------------------------
+# COMBAT LOG MESSAGES
+# ---------------------------------------------------------------
+combat-log:
+  # Warning shown when a player enters combat
+  tagged: "<gradient:#FF4444:#CC0000>[PolarSMP]</gradient> <bold><red>⚔ You are now combat-tagged!</red></bold> <gray>Logging out will result in death.</gray>"
+  # Untagged message
+  untagged: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <gray>Combat tag expired. Safe to log out.</gray>"
+  # Server broadcast when someone combat-logs
+  death-broadcast: "<gradient:#FF4444:#CC0000>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</gradient><newline><bold><red>  🏃 <player> FLED COMBAT AND WAS ELIMINATED!</red></bold><newline><gradient:#FF4444:#CC0000>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</gradient>"
+  # Shown to the player on their NEXT login after combat logging
+  return-message: "<newline><gradient:#FF4444:#CC0000>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</gradient><newline><bold><red>  💀 You were killed for combat logging!</red></bold><newline><gray>  Your rank and bounty were transferred upon logout.</gray><newline><gradient:#FF4444:#CC0000>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</gradient><newline>"
+
+# ---------------------------------------------------------------
+# ERROR MESSAGES
+# ---------------------------------------------------------------
+errors:
+  no-permission: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <red>⚠ You don't have permission to do that.</red>"
+  player-not-found: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <red>⚠ Player '<player>' not found or has never joined.</red>"
+  invalid-amount: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <red>⚠ Invalid amount. Must be a positive number.</red>"
+  invalid-rank: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <red>⚠ Invalid rank number. Must be 1-10.</red>"
+  rank-occupied: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <red>⚠ Rank <rank> is currently held by <player>. Use /polarrank set to displace them.</red>"
+  no-season-active: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <red>⚠ No active season. An admin must start one with /polarrank start.</red>"
+  season-already-active: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <red>⚠ A season is already active. Stop it first with /polarrank stop.</red>"
+  usage: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <red>⚠ Usage: <usage></red>"
+  console-only: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <red>⚠ This command cannot be run from console.</red>"
+  player-only: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <red>⚠ This command can only be run by a player.</red>"
+  insufficient-coins: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <red>⚠ You don't have enough coins for this purchase.</red>"
+
+# ---------------------------------------------------------------
+# GUI TITLES (MiniMessage)
+# ---------------------------------------------------------------
+gui:
+  profile-title: "<dark_blue><bold>✦ Player Profile ✦</bold></dark_blue>"
+  rewards-title: "<dark_green><bold>🏆 Reward Milestones 🏆</bold></dark_green>"
+  shop-title: "<dark_purple><bold>🛒 PolarSMP Shop 🛒</bold></dark_purple>"
+  rank-leaderboard-title: "<gold><bold>👑 PolarRank Leaderboard 👑</bold></gold>"
+  bounty-leaderboard-title: "<red><bold>💀 PolarBounty Leaderboard 💀</bold></red>"
+
+  # GUI button names
+  close-button: "<red><bold>✖ Close</bold></red>"
+  back-button: "<gray>◀ Back</gray>"
+  next-page: "<green>▶ Next Page</green>"
+  prev-page: "<green>◀ Previous Page</green>"
+
+  # Tab names for bounty leaderboard
+  tab-coins: "<gold><bold>🪙 Top Coins</bold></gold>"
+  tab-bounty: "<red><bold>💀 Top Bounties</bold></red>"
+  tab-streak: "<yellow><bold>🔥 Top Streaks</bold></yellow>"
+  tab-kills: "<green><bold>⚔ Most Kills</bold></green>"
+
+  # Reward states
+  reward-unclaimed: "<green><bold>✔ CLICK TO CLAIM</bold></green>"
+  reward-claimed: "<gray>✔ CLAIMED</gray>"
+  reward-progress: "<gray>Progress: <current>/<required></gray>"
+
+  # Leaderboard
+  rank-vacant: "<gray><italic>VACANT</italic></gray>"
+  season-info-title: "<gold><bold>📅 Season Information</bold></gold>"
+
+# ---------------------------------------------------------------
+# RELOAD MESSAGES
+# ---------------------------------------------------------------
+reload:
+  success: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <green>✔ Configuration reloaded successfully.</green>"
+  failure: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <red>✖ Failed to reload configuration. Check console for errors.</red>"

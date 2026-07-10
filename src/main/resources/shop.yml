@@ -1,0 +1,110 @@
+# ╔═══════════════════════════════════════════════════════════════╗
+# ║              PolarSMP - Shop Configuration                    ║
+# ╚═══════════════════════════════════════════════════════════════╝
+
+# ---------------------------------------------------------------
+# SHOP ITEMS
+# Each item has:
+#   id          - Unique identifier for the item
+#   material    - Bukkit material name
+#   display-name - MiniMessage display name
+#   lore        - List of MiniMessage lore lines
+#   price       - Cost in PolarSMP coins
+#   amount      - Stack size to give
+#   custom-model-data - (optional) Custom model data for resource pack
+# ---------------------------------------------------------------
+items:
+  - id: golden_apple_bundle
+    material: GOLDEN_APPLE
+    display-name: "<gold><bold>Golden Apple Bundle</bold></gold>"
+    lore:
+      - "<gray>A bundle of golden apples</gray>"
+      - "<gray>for those intense fights.</gray>"
+      - ""
+      - "<yellow>🪙 Price: <gold>150 Coins</gold></yellow>"
+      - "<dark_gray><italic>Click to purchase</italic></dark_gray>"
+    price: 150
+    amount: 8
+
+  - id: enchanted_golden_apple
+    material: ENCHANTED_GOLDEN_APPLE
+    display-name: "<gradient:#FFD700:#FF8C00><bold>⭐ God Apple</bold></gradient>"
+    lore:
+      - "<gray>The ultimate healing item.</gray>"
+      - "<gray>Reserve for only the toughest fights!</gray>"
+      - ""
+      - "<yellow>🪙 Price: <gold>1000 Coins</gold></yellow>"
+      - "<dark_gray><italic>Click to purchase</italic></dark_gray>"
+    price: 1000
+    amount: 1
+
+  - id: diamond_sword
+    material: DIAMOND_SWORD
+    display-name: "<aqua><bold>Diamond Sword</bold></aqua>"
+    lore:
+      - "<gray>A sharp diamond sword.</gray>"
+      - ""
+      - "<yellow>🪙 Price: <gold>500 Coins</gold></yellow>"
+      - "<dark_gray><italic>Click to purchase</italic></dark_gray>"
+    price: 500
+    amount: 1
+
+  - id: ender_pearl_stack
+    material: ENDER_PEARL
+    display-name: "<dark_purple><bold>Ender Pearl Stack</bold></dark_purple>"
+    lore:
+      - "<gray>16 ender pearls for rapid</gray>"
+      - "<gray>positioning and escapes.</gray>"
+      - ""
+      - "<yellow>🪙 Price: <gold>200 Coins</gold></yellow>"
+      - "<dark_gray><italic>Click to purchase</italic></dark_gray>"
+    price: 200
+    amount: 16
+
+  - id: totem_of_undying
+    material: TOTEM_OF_UNDYING
+    display-name: "<green><bold>Totem of Undying</bold></green>"
+    lore:
+      - "<gray>Cheat death once.</gray>"
+      - "<gray>An essential for ranked players.</gray>"
+      - ""
+      - "<yellow>🪙 Price: <gold>800 Coins</gold></yellow>"
+      - "<dark_gray><italic>Click to purchase</italic></dark_gray>"
+    price: 800
+    amount: 1
+
+  - id: speed_potion
+    material: POTION
+    display-name: "<yellow><bold>Speed II Potion</bold></yellow>"
+    lore:
+      - "<gray>Speed II for 8 minutes.</gray>"
+      - "<gray>Outrun your enemies.</gray>"
+      - ""
+      - "<yellow>🪙 Price: <gold>75 Coins</gold></yellow>"
+      - "<dark_gray><italic>Click to purchase</italic></dark_gray>"
+    price: 75
+    amount: 4
+
+  - id: iron_armor_set
+    material: IRON_CHESTPLATE
+    display-name: "<gray><bold>Iron Armor Set</bold></gray>"
+    lore:
+      - "<gray>Full iron armor: helmet, chest,</gray>"
+      - "<gray>leggings and boots.</gray>"
+      - ""
+      - "<yellow>🪙 Price: <gold>300 Coins</gold></yellow>"
+      - "<dark_gray><italic>Click to purchase</italic></dark_gray>"
+    price: 300
+    amount: 1
+
+  - id: exp_bottle_bundle
+    material: EXPERIENCE_BOTTLE
+    display-name: "<lime><bold>XP Bottle Bundle</bold></lime>"
+    lore:
+      - "<gray>32 experience bottles.</gray>"
+      - "<gray>Power up your enchantments!</gray>"
+      - ""
+      - "<yellow>🪙 Price: <gold>100 Coins</gold></yellow>"
+      - "<dark_gray><italic>Click to purchase</italic></dark_gray>"
+    price: 100
+    amount: 32

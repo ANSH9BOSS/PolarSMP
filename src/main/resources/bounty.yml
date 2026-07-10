@@ -1,0 +1,66 @@
+# ╔═══════════════════════════════════════════════════════════════╗
+# ║              PolarSMP - Bounty Configuration                  ║
+# ╚═══════════════════════════════════════════════════════════════╝
+
+# ---------------------------------------------------------------
+# BASE REWARDS
+# ---------------------------------------------------------------
+# Coins awarded to the killer on every legitimate PvP kill
+base-kill-coins: 10
+
+# Flat bounty added to the killer on every kill
+bounty-gain-per-kill: 5
+
+# Extra bounty added to the killer when hitting a streak milestone
+bounty-gain-per-streak-milestone: 20
+
+# ---------------------------------------------------------------
+# RANKED KILL BONUS COINS
+# Bonus coins awarded when killing a player who holds a rank
+# Higher rank number killed = less bonus (Rank 1 holder is most dangerous)
+# ---------------------------------------------------------------
+ranked-kill-bonus:
+  rank-1-bonus: 200     # Killing the Rank 1 holder
+  rank-2-bonus: 150
+  rank-3-bonus: 120
+  rank-4-bonus: 100
+  rank-5-bonus: 80
+  rank-6-bonus: 60
+  rank-7-bonus: 50
+  rank-8-bonus: 40
+  rank-9-bonus: 30
+  rank-10-bonus: 20     # Killing the Rank 10 holder
+
+# ---------------------------------------------------------------
+# STREAK MILESTONE BONUSES
+# Maps kill streak count -> bonus coins awarded at that milestone
+# ---------------------------------------------------------------
+streak-milestones:
+  3:  50        # 3 kill streak: +50 bonus coins
+  5:  100       # 5 kill streak: +100 bonus coins
+  10: 250       # 10 kill streak: +250 bonus coins
+  15: 500       # 15 kill streak: +500 bonus coins
+  20: 1000      # 20 kill streak: +1000 bonus coins
+
+# ---------------------------------------------------------------
+# PASSIVE BOUNTY GAIN (per minute while online with a rank)
+# Rank 1 holder accumulates the most bounty, making them the prime target
+# ---------------------------------------------------------------
+bounty-passive-gain:
+  rank-1-per-minute: 50
+  rank-2-per-minute: 40
+  rank-3-per-minute: 30
+  rank-4-per-minute: 25
+  rank-5-per-minute: 20
+  rank-6-per-minute: 15
+  rank-7-per-minute: 12
+  rank-8-per-minute: 10
+  rank-9-per-minute: 7
+  rank-10-per-minute: 5
+
+# ---------------------------------------------------------------
+# LARGE BOUNTY THRESHOLD
+# Bounty amounts at or above this value trigger a server-wide broadcast
+# when the player is killed and their bounty claimed
+# ---------------------------------------------------------------
+large-bounty-threshold: 500

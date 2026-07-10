@@ -1,0 +1,181 @@
+# ╔═══════════════════════════════════════════════════════════════╗
+# ║              PolarSMP - Main Configuration File               ║
+# ║                   Author: ANSH9BOSS v1.0.0                    ║
+# ╚═══════════════════════════════════════════════════════════════╝
+
+# ---------------------------------------------------------------
+# DATABASE CONFIGURATION
+# ---------------------------------------------------------------
+database:
+  # Database type: 'sqlite' or 'mysql'
+  # SQLite is recommended for small servers, MySQL for large/multi-server setups
+  type: sqlite
+
+  mysql:
+    # MySQL server hostname or IP address
+    host: localhost
+    # MySQL server port (default: 3306)
+    port: 3306
+    # Name of the MySQL database to use
+    database: polarsmp
+    # MySQL username
+    username: root
+    # MySQL password
+    password: password
+    # Maximum number of connections in the HikariCP pool
+    pool-size: 10
+    # Additional JDBC connection properties
+    properties:
+      useSSL: false
+      autoReconnect: true
+      characterEncoding: utf8
+      useUnicode: true
+
+# ---------------------------------------------------------------
+# ANTI-FARM PROTECTION
+# ---------------------------------------------------------------
+anti-farm:
+  # Enable anti-farm kill cooldown protection
+  enabled: true
+  # Number of seconds before the same killer/victim pair can earn rewards again
+  # Default: 300 seconds (5 minutes)
+  cooldown-seconds: 300
+
+# ---------------------------------------------------------------
+# COMBAT LOG SYSTEM
+# ---------------------------------------------------------------
+combat-log:
+  # Enable combat logging punishment
+  enabled: true
+  # Seconds a player remains combat-tagged after dealing/receiving PvP damage
+  # Default: 15 seconds
+  timer-seconds: 15
+
+# ---------------------------------------------------------------
+# WORLD FILTER
+# ---------------------------------------------------------------
+world-filter:
+  # Whitelist: if non-empty, ONLY these worlds allow PolarSMP mechanics
+  # Leave empty to use the blacklist instead
+  whitelist: []
+  #  - world
+  #  - world_nether
+
+  # Blacklist: if non-empty, these worlds are EXCLUDED from PolarSMP mechanics
+  # Ignored if whitelist is non-empty
+  blacklist: []
+  #  - creative_world
+  #  - minigames
+
+# ---------------------------------------------------------------
+# BOUNTY BROADCAST
+# ---------------------------------------------------------------
+bounty:
+  # Minimum bounty amount that triggers a server-wide broadcast when claimed
+  broadcast-threshold: 500
+
+# ---------------------------------------------------------------
+# RESOURCE PACK
+# ---------------------------------------------------------------
+resource-pack:
+  # Enable automatic resource pack delivery to players on join
+  enabled: false
+  # Direct download URL to the resource pack .zip file
+  url: ""
+  # SHA-1 hash of the resource pack file (required for caching)
+  hash: ""
+  # Message shown to player while pack is loading
+  loading-message: "<gradient:#FFD700:#FFA500>Loading PolarSMP resource pack...</gradient>"
+
+# ---------------------------------------------------------------
+# VAULT INTEGRATION
+# ---------------------------------------------------------------
+vault:
+  # Mirror coin transactions to Vault economy (requires Vault + economy plugin)
+  enabled: true
+
+# ---------------------------------------------------------------
+# LUCKPERMS INTEGRATION
+# ---------------------------------------------------------------
+luckperms:
+  # Permission node granted to the Rank 1 holder
+  rank1-permission: polarsmp.rank1
+
+# ---------------------------------------------------------------
+# AUTO-SAVE
+# ---------------------------------------------------------------
+# How often (in minutes) to auto-save all online player data to the database
+auto-save-interval-minutes: 5
+
+# ---------------------------------------------------------------
+# SOUNDS CONFIGURATION
+# All sound keys map to { sound, volume, pitch }
+# Use Bukkit sound names: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
+# ---------------------------------------------------------------
+sounds:
+  rank-gained:
+    sound: ENTITY_PLAYER_LEVELUP
+    volume: 1.0
+    pitch: 1.0
+  rank-lost:
+    sound: ENTITY_VILLAGER_HURT
+    volume: 1.0
+    pitch: 0.8
+  bounty-claimed:
+    sound: ENTITY_EXPERIENCE_ORB_PICKUP
+    volume: 1.0
+    pitch: 1.2
+  streak-milestone:
+    sound: ENTITY_FIREWORK_ROCKET_BLAST
+    volume: 1.0
+    pitch: 1.5
+  coins-received:
+    sound: ENTITY_EXPERIENCE_ORB_PICKUP
+    volume: 0.5
+    pitch: 1.5
+  gui-open:
+    sound: BLOCK_CHEST_OPEN
+    volume: 0.5
+    pitch: 1.2
+  gui-close:
+    sound: BLOCK_CHEST_CLOSE
+    volume: 0.5
+    pitch: 1.2
+  gui-click:
+    sound: UI_BUTTON_CLICK
+    volume: 0.5
+    pitch: 1.0
+  gui-deny:
+    sound: ENTITY_VILLAGER_NO
+    volume: 0.7
+    pitch: 1.0
+  purchase-success:
+    sound: ENTITY_PLAYER_LEVELUP
+    volume: 0.8
+    pitch: 1.3
+  combat-log:
+    sound: ENTITY_WITHER_DEATH
+    volume: 1.0
+    pitch: 0.5
+  season-start:
+    sound: UI_TOAST_CHALLENGE_COMPLETE
+    volume: 1.0
+    pitch: 0.8
+  season-end:
+    sound: ENTITY_ENDER_DRAGON_DEATH
+    volume: 1.0
+    pitch: 0.5
+  tab-switch:
+    sound: ITEM_BOOK_PAGE_TURN
+    volume: 0.7
+    pitch: 1.0
+  reward-claim:
+    sound: ENTITY_PLAYER_LEVELUP
+    volume: 1.0
+    pitch: 1.5
+
+# ---------------------------------------------------------------
+# DEBUG MODE
+# When enabled, verbose logs are printed to console for diagnostics
+# ---------------------------------------------------------------
+debug: false

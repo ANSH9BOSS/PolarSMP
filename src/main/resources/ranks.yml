@@ -1,0 +1,146 @@
+# ╔═══════════════════════════════════════════════════════════════╗
+# ║              PolarSMP - Ranks Configuration                   ║
+# ║   Defines perks, colors, and prefixes for each rank           ║
+# ╚═══════════════════════════════════════════════════════════════╝
+
+ranks:
+  # ─── RANK 1 ── (Most prestigious) ─────────────────────────────
+  1:
+    # Display color in MiniMessage hex format
+    color: "<gradient:#FFD700:#FF8C00>"
+    # Prefix shown in chat and tab list (MiniMessage)
+    prefix-format: "<gradient:#FFD700:#FF8C00><bold>[#1]</bold></gradient>"
+    # Extra hearts (half-hearts). 10 extra hearts = +5 max HP = 30 total HP (15 hearts)
+    extra-hearts: 10
+    # Potion effects applied while holding this rank
+    effects:
+      - effect: SPEED
+        amplifier: 1       # Amplifier 1 = Speed II (0-indexed)
+      - effect: STRENGTH
+        amplifier: 1       # Amplifier 1 = Strength II
+      - effect: RESISTANCE
+        amplifier: 1       # Amplifier 1 = Resistance II
+      - effect: FIRE_RESISTANCE
+        amplifier: 0       # Amplifier 0 = Fire Resistance I
+      - effect: HASTE
+        amplifier: 1       # Amplifier 1 = Haste II
+    # Custom model data for resource pack rank badge (paper item)
+    resource-pack-custom-model-data: 1010
+
+  # ─── RANK 2 ──────────────────────────────────────────────────
+  2:
+    color: "<gradient:#E8E8E8:#C0C0C0>"
+    prefix-format: "<gradient:#E8E8E8:#C0C0C0><bold>[#2]</bold></gradient>"
+    extra-hearts: 8
+    effects:
+      - effect: SPEED
+        amplifier: 1
+      - effect: STRENGTH
+        amplifier: 1
+      - effect: RESISTANCE
+        amplifier: 1
+      - effect: FIRE_RESISTANCE
+        amplifier: 0
+    resource-pack-custom-model-data: 1011
+
+  # ─── RANK 3 ──────────────────────────────────────────────────
+  3:
+    color: "<gradient:#CD7F32:#A0522D>"
+    prefix-format: "<gradient:#CD7F32:#A0522D><bold>[#3]</bold></gradient>"
+    extra-hearts: 6
+    effects:
+      - effect: SPEED
+        amplifier: 1
+      - effect: STRENGTH
+        amplifier: 0
+      - effect: RESISTANCE
+        amplifier: 1
+    resource-pack-custom-model-data: 1012
+
+  # ─── RANK 4 ──────────────────────────────────────────────────
+  4:
+    color: "<gradient:#00BFFF:#007FFF>"
+    prefix-format: "<gradient:#00BFFF:#007FFF><bold>[#4]</bold></gradient>"
+    extra-hearts: 4
+    effects:
+      - effect: SPEED
+        amplifier: 1
+      - effect: STRENGTH
+        amplifier: 0
+      - effect: RESISTANCE
+        amplifier: 0
+    resource-pack-custom-model-data: 1013
+
+  # ─── RANK 5 ──────────────────────────────────────────────────
+  5:
+    color: "<gradient:#50C878:#228B22>"
+    prefix-format: "<gradient:#50C878:#228B22><bold>[#5]</bold></gradient>"
+    extra-hearts: 4
+    effects:
+      - effect: SPEED
+        amplifier: 1
+      - effect: RESISTANCE
+        amplifier: 0
+      - effect: FIRE_RESISTANCE
+        amplifier: 0
+    resource-pack-custom-model-data: 1014
+
+  # ─── RANK 6 ──────────────────────────────────────────────────
+  6:
+    color: "<gradient:#FF69B4:#FF1493>"
+    prefix-format: "<gradient:#FF69B4:#FF1493><bold>[#6]</bold></gradient>"
+    extra-hearts: 2
+    effects:
+      - effect: SPEED
+        amplifier: 0
+      - effect: RESISTANCE
+        amplifier: 0
+      - effect: FIRE_RESISTANCE
+        amplifier: 0
+    resource-pack-custom-model-data: 1015
+
+  # ─── RANK 7 ──────────────────────────────────────────────────
+  7:
+    color: "<gradient:#9B59B6:#6C3483>"
+    prefix-format: "<gradient:#9B59B6:#6C3483><bold>[#7]</bold></gradient>"
+    extra-hearts: 2
+    effects:
+      - effect: SPEED
+        amplifier: 0
+      - effect: RESISTANCE
+        amplifier: 0
+    resource-pack-custom-model-data: 1016
+
+  # ─── RANK 8 ──────────────────────────────────────────────────
+  8:
+    color: "<gradient:#F39C12:#D68910>"
+    prefix-format: "<gradient:#F39C12:#D68910><bold>[#8]</bold></gradient>"
+    extra-hearts: 1
+    effects:
+      - effect: SPEED
+        amplifier: 0
+      - effect: HASTE
+        amplifier: 0
+    resource-pack-custom-model-data: 1017
+
+  # ─── RANK 9 ──────────────────────────────────────────────────
+  9:
+    color: "<gradient:#1ABC9C:#117A65>"
+    prefix-format: "<gradient:#1ABC9C:#117A65><bold>[#9]</bold></gradient>"
+    extra-hearts: 0
+    effects:
+      - effect: SPEED
+        amplifier: 0
+      - effect: JUMP_BOOST
+        amplifier: 0
+    resource-pack-custom-model-data: 1018
+
+  # ─── RANK 10 ── (Lowest rank) ─────────────────────────────────
+  10:
+    color: "<gradient:#95A5A6:#717D7E>"
+    prefix-format: "<gradient:#95A5A6:#717D7E><bold>[#10]</bold></gradient>"
+    extra-hearts: 0
+    effects:
+      - effect: SPEED
+        amplifier: 0
+    resource-pack-custom-model-data: 1019

@@ -1,0 +1,55 @@
+# ╔═══════════════════════════════════════════════════════════════╗
+# ║            PolarSMP - Scoreboard Configuration                ║
+# ╚═══════════════════════════════════════════════════════════════╝
+
+# Enable or disable the animated per-player sidebar scoreboard
+enabled: true
+
+# How often to update scoreboard values (in ticks, 20 ticks = 1 second)
+update-interval-ticks: 20
+
+# How often to advance the title animation frame (in ticks)
+animation-interval-ticks: 5
+
+# ---------------------------------------------------------------
+# TITLE ANIMATION FRAMES
+# Each frame is a MiniMessage string displayed as the scoreboard title
+# Frames cycle smoothly to create an animated gradient effect
+# ---------------------------------------------------------------
+title-animation-frames:
+  - "<gradient:#FFD700:#FFA500><bold>✦ PolarSMP ✦</bold></gradient>"
+  - "<gradient:#FFA500:#FF8C00><bold>✦ PolarSMP ✦</bold></gradient>"
+  - "<gradient:#FF8C00:#FF6347><bold>✦ PolarSMP ✦</bold></gradient>"
+  - "<gradient:#FF6347:#FF4500><bold>✦ PolarSMP ✦</bold></gradient>"
+  - "<gradient:#FF4500:#FF8C00><bold>✦ PolarSMP ✦</bold></gradient>"
+  - "<gradient:#FF8C00:#FFD700><bold>✦ PolarSMP ✦</bold></gradient>"
+  - "<gradient:#FFD700:#FFFF00><bold>✦ PolarSMP ✦</bold></gradient>"
+  - "<gradient:#FFFF00:#FFD700><bold>✦ PolarSMP ✦</bold></gradient>"
+
+# ---------------------------------------------------------------
+# SCOREBOARD LINE FORMATS
+# Use placeholders: {rank} {coins} {bounty} {streak} {kills} {deaths} {kd}
+# MiniMessage is supported for colors/formatting
+# Lines are displayed in this order from top to bottom
+# ---------------------------------------------------------------
+lines:
+  # Spacing line (empty)
+  - ""
+  # Rank display
+  - "<gray> Rank: </gray><gold>{rank}</gold>"
+  # Coins display  
+  - "<gray> 🪙 Coins: </gray><yellow>{coins}</yellow>"
+  # Bounty display
+  - "<gray> 💀 Bounty: </gray><red>{bounty}</red>"
+  # Streak display
+  - "<gray> 🔥 Streak: </gray><yellow>{streak}</yellow>"
+  # Kills display
+  - "<gray> ⚔ Kills: </gray><green>{kills}</green>"
+  # Deaths display
+  - "<gray> 💀 Deaths: </gray><red>{deaths}</red>"
+  # K/D display
+  - "<gray> 📊 K/D: </gray><aqua>{kd}</aqua>"
+  # Spacing line
+  - ""
+  # Server IP
+  - "<aqua> play.polarsmp.com</aqua>"

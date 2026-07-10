@@ -1,0 +1,47 @@
+name: PolarSMP
+version: 1.0.0
+main: com.polarsmp.PolarSMP
+api-version: '1.21'
+author: ANSH9BOSS
+description: Ultra-premium competitive PvP rank and economy plugin for SMP servers
+website: https://github.com/ANSH9BOSS/PolarSMP
+soft-depend:
+  - Vault
+  - PlaceholderAPI
+  - LuckPerms
+
+commands:
+  polarrank:
+    description: PolarSMP rank system command
+    usage: /polarrank <subcommand>
+    aliases: [prank]
+    permission: polarrank.player
+  polarbounty:
+    description: PolarSMP bounty system command
+    usage: /polarbounty <subcommand>
+    aliases: [pbounty]
+    permission: polarbounty.player
+  polarsmp:
+    description: PolarSMP plugin information command
+    usage: /polarsmp
+    aliases: [psmp]
+
+permissions:
+  polarrank.player:
+    description: Access to basic PolarRank commands
+    default: true
+  polarrank.admin:
+    description: Access to all PolarRank admin commands
+    default: op
+  polarbounty.player:
+    description: Access to basic PolarBounty commands
+    default: true
+  polarbounty.admin:
+    description: Access to all PolarBounty admin commands
+    default: op
+  polarsmp.admin:
+    description: Full admin access to all PolarSMP commands
+    default: op
+    children:
+      polarrank.admin: true
+      polarbounty.admin: true
