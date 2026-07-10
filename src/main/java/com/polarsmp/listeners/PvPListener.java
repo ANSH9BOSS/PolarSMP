@@ -17,6 +17,9 @@ import com.polarsmp.util.SoundUtil;
 import com.polarsmp.util.FormatUtil;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
+import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
@@ -24,6 +27,9 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
 
@@ -104,6 +110,11 @@ public final class PvPListener implements Listener {
         var damageEvent = victim.getLastDamageCause();
         if (!(damageEvent instanceof EntityDamageByEntityEvent)) return;
 
+        // Suppress default death message immediately if custom pvp messages enabled
+        if (configManager.getMainConfig().getBoolean("cosmetics.custom-kill-messages", true)) {
+            event.deathMessage(net.kyori.adventure.text.Component.empty());
+        }
+
         // 3. Check world allowed
         WorldListener worldFilter = plugin.getWorldListener();
         if (worldFilter != null && !worldFilter.isWorldAllowed(victim.getWorld())) return;
@@ -125,6 +136,12 @@ public final class PvPListener implements Listener {
 
                 // Log the kill to database for anti-farm tracking
                 dataStore.logKill(killerUuid, victimUuid, System.currentTimeMillis());
+
+                // Trigger cosmetics and death effects (#5)
+                handleDeathCosmetics(victim, killer);
+
+                // Trigger custom kill message (#5)
+                handleCustomKillMessage(victim, killer);
 
                 // Remove combat tags
                 combatLogTracker.untag(victimUuid);
@@ -234,5 +251,155 @@ public final class PvPListener implements Listener {
                 .replace("<victim>", victim.getName())
                 .replace("{rank}", String.valueOf(rankNum));
         MessageUtil.broadcastMessage(PolarSMP.miniMessage().deserialize(broadcastMsg));
+    }
+
+    private void handleDeathCosmetics(final Player victim, final Player killer) {
+        if (configManager.getMainConfig().getBoolean("cosmetics.death-effects", true)) {
+            org.bukkit.Location loc = victim.getLocation();
+            org.bukkit.World world = victim.getWorld();
+
+            // Spawn smoke and explosion effects
+            world.spawnParticle(Particle.LARGE_SMOKE, loc.add(0, 1, 0), 20, 0.4, 0.4, 0.4, 0.05);
+            world.spawnParticle(Particle.FLAME, loc, 30, 0.5, 0.5, 0.5, 0.1);
+            world.spawnParticle(Particle.DUST, loc, 50, 0.6, 0.6, 0.6, 0.05, new Particle.DustOptions(Color.RED, 1.2f));
+
+            // Custom lightning/thunder strike sound (silent strike, only sound to avoid real damage/fire)
+            world.playSound(loc, org.bukkit.Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 0.6f, 1.2f);
+        }
+    }
+
+    private void handleCustomKillMessage(final Player victim, final Player killer) {
+        if (configManager.getMainConfig().getBoolean("cosmetics.custom-kill-messages", true)) {
+            java.util.List<String> messages = configManager.getMessagesConfig().getStringList("kill-messages");
+            if (messages.isEmpty()) return;
+
+            // Pick random template
+            String template = messages.get(new java.util.Random().nextInt(messages.size()));
+
+            // Get killer K/D
+            BountyPlayer killerData = playerDataCache.getPlayer(killer.getUniqueId());
+            String kd = killerData != null ? FormatUtil.formatKD(killerData.getTotalKills(), killerData.getTotalDeaths()) : "0.00";
+
+            // Format names with rank prefix
+            String killerNameFormatted = getFormattedPlayerName(killer);
+            String victimNameFormatted = getFormattedPlayerName(victim);
+
+            String formattedMessage = template
+                    .replace("<killer>", killerNameFormatted)
+                    .replace("<victim>", victimNameFormatted)
+                    .replace("<kd>", kd);
+
+            MessageUtil.broadcastMessage(PolarSMP.miniMessage().deserialize(formattedMessage));
+        }
+    }
+
+    private String getFormattedPlayerName(final Player player) {
+        Integer rank = rankManager.getRank(player.getUniqueId());
+        String prefix = "";
+        if (rank != null) {
+            prefix = configManager.getRanksConfig().getString("ranks.rank-" + rank + ".prefix", "");
+        } else {
+            prefix = configManager.getRanksConfig().getString("unranked-prefix", "<gray>[Unranked]</gray> ");
+        }
+        return prefix + player.getName();
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onEntityDamage(final EntityDamageByEntityEvent event) {
+        if (!(event.getEntity() instanceof Player victim)) return;
+
+        Player killer = null;
+        if (event.getDamager() instanceof Player p) {
+            killer = p;
+        } else if (event.getDamager() instanceof Projectile proj && proj.getShooter() instanceof Player p) {
+            killer = p;
+        }
+
+        if (killer == null) return;
+
+        // 1. Blood particles effect
+        if (configManager.getMainConfig().getBoolean("cosmetics.blood-particles", true)) {
+            victim.getWorld().spawnParticle(
+                    Particle.DUST,
+                    victim.getLocation().add(0, 1, 0),
+                    12, 0.25, 0.4, 0.25, 0.05,
+                    new Particle.DustOptions(Color.RED, 0.9f)
+            );
+        }
+    }
+
+    // Concurrent map to track who is tracking whom (tracker UUID -> target UUID)
+    private final java.util.concurrent.ConcurrentHashMap<UUID, UUID> activeTrackers = new java.util.concurrent.ConcurrentHashMap<>();
+
+    @EventHandler
+    public void onPlayerInteract(final org.bukkit.event.player.PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        ItemStack item = event.getItem();
+        if (item == null || item.getType() != Material.COMPASS) return;
+
+        // Trigger on right click
+        if (event.getAction() == org.bukkit.event.block.Action.RIGHT_CLICK_AIR || event.getAction() == org.bukkit.event.block.Action.RIGHT_CLICK_BLOCK) {
+            // Cancel default lodestone point behavior
+            event.setCancelled(true);
+
+            UUID currentTargetUuid = activeTrackers.get(player.getUniqueId());
+            Player target = null;
+            if (currentTargetUuid != null) {
+                target = Bukkit.getPlayer(currentTargetUuid);
+            }
+
+            // If no target or target went offline, find a new target
+            if (target == null || !target.isOnline()) {
+                activeTrackers.remove(player.getUniqueId());
+
+                // Find online player with highest bounty (excluding themselves)
+                Player highestBountyPlayer = null;
+                long highestBounty = -1;
+
+                for (Player online : Bukkit.getOnlinePlayers()) {
+                    if (online.getUniqueId().equals(player.getUniqueId())) continue;
+
+                    BountyPlayer data = playerDataCache.getPlayer(online.getUniqueId());
+                    if (data != null && data.getBounty() > highestBounty) {
+                        highestBounty = data.getBounty();
+                        highestBountyPlayer = online;
+                    }
+                }
+
+                if (highestBountyPlayer != null) {
+                    target = highestBountyPlayer;
+                    activeTrackers.put(player.getUniqueId(), target.getUniqueId());
+                    player.sendMessage(PolarSMP.miniMessage().deserialize(
+                            "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <green>Locked tracker compass onto </green><gold>" + target.getName() + "</gold><green> (Bounty: " + highestBounty + " coins).</green>"
+                    ));
+                    SoundUtil.playSound(player, configManager.getSound("purchase-success"));
+                } else {
+                    player.sendMessage(PolarSMP.miniMessage().deserialize(
+                            "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <red>No other online players found to track.</red>"
+                    ));
+                    SoundUtil.playSound(player, configManager.getSound("errors"));
+                    return;
+                }
+            }
+
+            // Update compass direction and point
+            player.setCompassTarget(target.getLocation());
+            int distance = (int) player.getLocation().distance(target.getLocation());
+
+            MessageUtil.sendActionBar(player, PolarSMP.miniMessage().deserialize(
+                    "<bold><gradient:#FF4444:#FFA500>🧭 TRACKING: " + target.getName() + " | Distance: " + distance + "m</gradient></bold>"
+            ));
+
+            // Small portal/tracker effect at player location
+            player.getWorld().spawnParticle(Particle.PORTAL, player.getLocation().add(0, 1, 0), 10, 0.2, 0.2, 0.2, 0.1);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerQuit(final org.bukkit.event.player.PlayerQuitEvent event) {
+        UUID uuid = event.getPlayer().getUniqueId();
+        activeTrackers.remove(uuid);
+        // Clear anyone tracking them
+        activeTrackers.values().removeIf(targetUuid -> targetUuid.equals(uuid));
     }
 }

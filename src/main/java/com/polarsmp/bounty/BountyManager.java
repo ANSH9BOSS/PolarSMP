@@ -245,25 +245,83 @@ public final class BountyManager {
 
     /**
      * Starts the repeating async task that passively accrues bounty for ranked players
-     * every 60 seconds (1 game minute).
+     * every 60 seconds (1 game minute) and runs glowing outline threshold checks.
      */
     public void startPassiveBountyTask() {
         passiveBountyTask = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                Integer rank = rankManager.getRank(player.getUniqueId());
-                if (rank == null) continue;
-
-                String key = "bounty-passive-gain.rank-" + rank + "-per-minute";
-                long gain = configManager.getBountyConfig().getLong(key, 0);
-                if (gain <= 0) continue;
-
                 BountyPlayer data = playerDataCache.getPlayer(player.getUniqueId());
                 if (data == null) continue;
 
-                data.addBounty(gain);
-                playerDataCache.markDirty(player.getUniqueId());
+                // 1. Passive gain if ranked
+                Integer rank = rankManager.getRank(player.getUniqueId());
+                if (rank != null) {
+                    String key = "bounty-passive-gain.rank-" + rank + "-per-minute";
+                    long gain = configManager.getBountyConfig().getLong(key, 0);
+                    if (gain > 0) {
+                        data.addBounty(gain);
+                        playerDataCache.markDirty(player.getUniqueId());
+                    }
+                }
+
+                // 2. Glow threshold check (sync back to main thread)
+                Bukkit.getScheduler().runTask(plugin, () -> {
+                    long threshold = configManager.getMainConfig().getLong("bounty.glowing-threshold", 5000);
+                    player.setGlowing(data.getBounty() >= threshold);
+                });
             }
         }, 1200L, 1200L); // 1200 ticks = 60 seconds
+    }
+
+    /**
+     * Places a bounty contract on a target player.
+     *
+     * @param sender the player placing the contract
+     * @param target the target player receiving the bounty
+     * @param amount the coin contract amount
+     * @return true if successfully placed, false if insufficient coins
+     */
+    public boolean placeContract(final Player sender, final Player target, final long amount) {
+        BountyPlayer senderData = playerDataCache.getPlayer(sender.getUniqueId());
+        BountyPlayer targetData = playerDataCache.getPlayer(target.getUniqueId());
+        if (senderData == null || targetData == null) return false;
+
+        long taxPct = configManager.getMainConfig().getLong("bounty.contract-tax-percentage", 5);
+        long tax = (long) Math.ceil(amount * (taxPct / 100.0));
+        long totalCost = amount + tax;
+
+        if (senderData.getCoins() < totalCost) return false;
+
+        // Deduct from sender
+        adminTakeCoins(sender, totalCost);
+
+        // Add bounty to target
+        targetData.addBounty(amount);
+        playerDataCache.markDirty(target.getUniqueId());
+
+        // Save target state
+        dataStore.savePlayer(targetData);
+
+        // Notify sender
+        String placedMsg = configManager.getMessage("bounty.contract-placed")
+                .replace("<amount>", FormatUtil.formatNumber(amount))
+                .replace("<target>", target.getName())
+                .replace("<tax>", FormatUtil.formatNumber(tax));
+        sender.sendMessage(PolarSMP.miniMessage().deserialize(placedMsg));
+        SoundUtil.playSound(sender, configManager.getSound("coins-received"));
+
+        // Global broadcast
+        String broadcastMsg = configManager.getMessage("bounty.contract-broadcast")
+                .replace("<player>", sender.getName())
+                .replace("<amount>", FormatUtil.formatNumber(amount))
+                .replace("<target>", target.getName());
+        MessageUtil.broadcastMessage(PolarSMP.miniMessage().deserialize(broadcastMsg));
+
+        // Update target glowing status on main thread
+        long threshold = configManager.getMainConfig().getLong("bounty.glowing-threshold", 5000);
+        target.setGlowing(targetData.getBounty() >= threshold);
+
+        return true;
     }
 
     /**

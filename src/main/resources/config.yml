@@ -73,6 +73,10 @@ world-filter:
 bounty:
   # Minimum bounty amount that triggers a server-wide broadcast when claimed
   broadcast-threshold: 500
+  # Tax percentage taken when a player places a contract bounty on another player
+  contract-tax-percentage: 5
+  # Minimum bounty required to apply the glowing effect outline to a player
+  glowing-threshold: 5000
 
 # ---------------------------------------------------------------
 # RESOURCE PACK
@@ -179,3 +183,14 @@ sounds:
 # When enabled, verbose logs are printed to console for diagnostics
 # ---------------------------------------------------------------
 debug: false
+
+# ---------------------------------------------------------------
+# COSMETICS & PVP EFFECTS
+# ---------------------------------------------------------------
+cosmetics:
+  # Spawn red blood particles when a player takes damage
+  blood-particles: true
+  # Spawn a dramatic smoke/explosion on PvP death
+  death-effects: true
+  # Override standard death messages with premium styled ones
+  custom-kill-messages: true

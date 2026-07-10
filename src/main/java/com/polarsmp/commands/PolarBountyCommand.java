@@ -123,6 +123,18 @@ public final class PolarBountyCommand implements CommandExecutor, TabCompleter {
                 guiManager.openBountyLeaderboardGui(player);
                 break;
 
+            case "contract":
+                if (!(sender instanceof Player player)) {
+                    sender.sendMessage(PolarSMP.miniMessage().deserialize(configManager.getMessage("errors.player-only")));
+                    return true;
+                }
+                if (!player.hasPermission("polarbounty.player")) {
+                    player.sendMessage(PolarSMP.miniMessage().deserialize(configManager.getMessage("errors.no-permission")));
+                    return true;
+                }
+                handleContract(player, args);
+                break;
+
             case "balance":
                 if (!sender.hasPermission("polarbounty.player")) {
                     sender.sendMessage(PolarSMP.miniMessage().deserialize(configManager.getMessage("errors.no-permission")));
@@ -414,11 +426,55 @@ public final class PolarBountyCommand implements CommandExecutor, TabCompleter {
         }
     }
 
+    private void handleContract(final Player player, final String[] args) {
+        if (args.length < 3) {
+            player.sendMessage(PolarSMP.miniMessage().deserialize(
+                    configManager.getMessage("errors.usage").replace("<usage>", "/polarbounty contract <player> <amount>")));
+            return;
+        }
+
+        String targetName = args[1];
+        Player target = Bukkit.getPlayer(targetName);
+        if (target == null) {
+            player.sendMessage(PolarSMP.miniMessage().deserialize(
+                    configManager.getMessage("errors.player-not-found").replace("<player>", targetName)));
+            return;
+        }
+
+        if (target.getUniqueId().equals(player.getUniqueId())) {
+            player.sendMessage(PolarSMP.miniMessage().deserialize("<red>✖ You cannot place a bounty contract on yourself!</red>"));
+            return;
+        }
+
+        long amount;
+        try {
+            amount = Long.parseLong(args[2]);
+        } catch (NumberFormatException e) {
+            player.sendMessage(PolarSMP.miniMessage().deserialize(configManager.getMessage("errors.invalid-amount")));
+            return;
+        }
+
+        if (amount <= 0) {
+            player.sendMessage(PolarSMP.miniMessage().deserialize(configManager.getMessage("errors.invalid-amount")));
+            return;
+        }
+
+        boolean success = bountyManager.placeContract(player, target, amount);
+        if (!success) {
+            player.sendMessage(PolarSMP.miniMessage().deserialize("<red>✖ Insufficient coins! Placing this contract requires coins + tax fee.</red>"));
+            return;
+        }
+
+        // Update scoreboards for both
+        plugin.getScoreboardManager().updateScoreboard(player);
+        plugin.getScoreboardManager().updateScoreboard(target);
+    }
+
     @Override
     public List<String> onTabComplete(@NotNull final CommandSender sender, @NotNull final Command command,
                                       @NotNull final String alias, @NotNull final String[] args) {
         if (args.length == 1) {
-            List<String> list = new ArrayList<>(List.of("help", "profile", "rewards", "shop", "top", "balance"));
+            List<String> list = new ArrayList<>(List.of("help", "profile", "rewards", "shop", "top", "balance", "contract"));
             if (sender.hasPermission("polarbounty.admin")) {
                 list.addAll(List.of("give", "take", "setbounty", "resetstats", "reload"));
             }
@@ -428,10 +484,20 @@ public final class PolarBountyCommand implements CommandExecutor, TabCompleter {
         if (args.length == 2) {
             String sub = args[0].toLowerCase();
             if (sub.equals("profile") || sub.equals("balance") || sub.equals("give")
-                    || sub.equals("take") || sub.equals("setbounty") || sub.equals("resetstats")) {
+                    || sub.equals("take") || sub.equals("setbounty") || sub.equals("resetstats")
+                    || sub.equals("contract")) {
                 return Bukkit.getOnlinePlayers().stream()
                         .map(Player::getName)
                         .filter(s -> s.toLowerCase().startsWith(args[1].toLowerCase()))
+                        .toList();
+            }
+        }
+
+        if (args.length == 3) {
+            String sub = args[0].toLowerCase();
+            if (sub.equals("contract") || sub.equals("give") || sub.equals("take") || sub.equals("setbounty")) {
+                return List.of("100", "500", "1000", "5000").stream()
+                        .filter(s -> s.startsWith(args[2]))
                         .toList();
             }
         }

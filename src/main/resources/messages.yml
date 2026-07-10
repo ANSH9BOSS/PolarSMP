@@ -71,6 +71,9 @@ bounty:
   # Reset stats confirmation
   reset-confirm: "<gradient:#FF4444:#CC0000>[PolarSMP]</gradient> <bold><red>⚠ WARNING:</red></bold> <gray>This will wipe ALL stats for</gray> <red><player></red><gray>. Run the command again within 10 seconds to confirm.</gray>"
   reset-done: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <gray>All stats for</gray> <gold><player></gold> <gray>have been reset.</gray>"
+  # Contract bounty messages
+  contract-placed: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <gray>Placed a bounty contract of</gray> <gold><amount> Coins</gold> <gray>on</gray> <gold><target></gold> <gray>(Tax: <tax> Coins).</gray>"
+  contract-broadcast: "<newline><gradient:#FF4444:#FFA500>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</gradient><newline><bold><gradient:#FFD700:#FF4444>  🎯 BOUNTY CONTRACT PLACED! 🎯</gradient></bold><newline><gray><player> has put a contract of </gray><gold><amount> Coins</gold><gray> on </gray><red><target></red><gray>!</gray><newline><gradient:#FF4444:#FFA500>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</gradient><newline>"
 
 # ---------------------------------------------------------------
 # STREAK MESSAGES
@@ -152,3 +155,12 @@ gui:
 reload:
   success: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <green>✔ Configuration reloaded successfully.</green>"
   failure: "<gradient:#FFD700:#FFA500>[PolarSMP]</gradient> <red>✖ Failed to reload configuration. Check console for errors.</red>"
+
+# ---------------------------------------------------------------
+# PREMIUM KILL MESSAGES
+# ---------------------------------------------------------------
+kill-messages:
+  - "<red>⚔</red> <gold><killer></gold> <gray>vaporized</gray> <red><victim></red> <dark_gray>(<kd> K/D)</dark_gray>"
+  - "<red>⚔</red> <gold><killer></gold> <gray>sliced through</gray> <red><victim></red> <dark_gray>(<kd> K/D)</dark_gray>"
+  - "<red>⚔</red> <gold><killer></gold> <gray>dominated</gray> <red><victim></red> <dark_gray>(<kd> K/D)</dark_gray>"
+  - "<red>⚔</red> <gold><killer></gold> <gray>obliterated</gray> <red><victim></red> <dark_gray>(<kd> K/D)</dark_gray>"
