@@ -121,8 +121,9 @@ public final class PolarSMP extends JavaPlugin {
         Objects.requireNonNull(getCommand("polarbounty"))
                 .setTabCompleter(new PolarBountyCommand(this, configManager, bountyManager, playerDataCache, guiManager, dataStore));
 
-        Objects.requireNonNull(getCommand("polarsmp"))
-                .setExecutor(new PolarSMPCommand(this, configManager, rankManager, bountyManager, vaultHook, luckPermsHook));
+        var psmpCmd = new PolarSMPCommand(this, configManager, rankManager, bountyManager, vaultHook, luckPermsHook);
+        Objects.requireNonNull(getCommand("polarsmp")).setExecutor(psmpCmd);
+        Objects.requireNonNull(getCommand("polarsmp")).setTabCompleter(psmpCmd);
 
         // ── Step 9: Register PlaceholderAPI expansion ─────────────
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
