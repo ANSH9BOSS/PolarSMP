@@ -344,15 +344,17 @@ public final class RankManager {
         dataStore.saveRank(gainer.getUniqueId(), gainerNewRank);
 
         // ── LuckPerms rank 1 sync ─────────────────────────────────
-        if (gainerNewRank == 1) {
-            luckPermsHook.addRank1Permission(gainer.getUniqueId());
-        }
-        // If loser had rank 1 and now doesn't, revoke
-        if (loserNewRank == null || loserNewRank != 1) {
-            Integer prevLoserRank = loserNewRank != null ? loserNewRank : null;
-            if (prevLoserRank == null || prevLoserRank != 1) {
-                // Check if loser previously had rank 1
-                luckPermsHook.removeRank1Permission(loser.getUniqueId());
+        if (luckPermsHook != null) {
+            if (gainerNewRank == 1) {
+                luckPermsHook.addRank1Permission(gainer.getUniqueId());
+            }
+            // If loser had rank 1 and now doesn't, revoke
+            if (loserNewRank == null || loserNewRank != 1) {
+                Integer prevLoserRank = loserNewRank != null ? loserNewRank : null;
+                if (prevLoserRank == null || prevLoserRank != 1) {
+                    // Check if loser previously had rank 1
+                    luckPermsHook.removeRank1Permission(loser.getUniqueId());
+                }
             }
         }
     }
@@ -399,7 +401,7 @@ public final class RankManager {
 
             dataStore.saveRank(target.getUniqueId(), rankNumber);
 
-            if (rankNumber == 1) luckPermsHook.addRank1Permission(target.getUniqueId());
+            if (rankNumber == 1 && luckPermsHook != null) luckPermsHook.addRank1Permission(target.getUniqueId());
         }
     }
 
@@ -418,7 +420,7 @@ public final class RankManager {
                 EffectUtil.removeRankPerks(target);
                 assignUnrankedTeam(target);
                 dataStore.saveRank(target.getUniqueId(), null);
-                if (rank == 1) luckPermsHook.removeRank1Permission(target.getUniqueId());
+                if (rank == 1 && luckPermsHook != null) luckPermsHook.removeRank1Permission(target.getUniqueId());
             }
             return rank;
         }

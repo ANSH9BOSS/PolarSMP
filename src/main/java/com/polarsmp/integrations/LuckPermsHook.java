@@ -2,8 +2,6 @@ package com.polarsmp.integrations;
 
 import com.polarsmp.PolarSMP;
 import com.polarsmp.core.ConfigManager;
-import net.luckperms.api.LuckPerms;
-import net.luckperms.api.node.Node;
 import org.bukkit.Bukkit;
 
 import java.util.UUID;
@@ -11,6 +9,8 @@ import java.util.logging.Level;
 
 /**
  * Optional LuckPerms integration for syncing the Rank 1 permission node.
+ * Uses fully qualified references inside method bodies to prevent NoClassDefFoundError
+ * when LuckPerms is not installed on the server.
  *
  * @author ANSH9BOSS
  * @version 1.0.0
@@ -18,7 +18,6 @@ import java.util.logging.Level;
 public final class LuckPermsHook {
     private final PolarSMP plugin;
     private final ConfigManager configManager;
-    private LuckPerms luckPerms;
     private boolean available = false;
 
     /**
@@ -30,9 +29,18 @@ public final class LuckPermsHook {
     public LuckPermsHook(final PolarSMP plugin, final ConfigManager configManager) {
         this.plugin = plugin;
         this.configManager = configManager;
-        var provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
+        try {
+            if (Bukkit.getPluginManager().isPluginEnabled("LuckPerms")) {
+                setupLuckPerms();
+            }
+        } catch (Throwable t) {
+            // LuckPerms not present or failed to load
+        }
+    }
+
+    private void setupLuckPerms() {
+        var provider = Bukkit.getServicesManager().getRegistration(net.luckperms.api.LuckPerms.class);
         if (provider != null) {
-            luckPerms = provider.getProvider();
             available = true;
             plugin.getLogger().info("LuckPerms integration active.");
         } else {
@@ -49,9 +57,12 @@ public final class LuckPermsHook {
         if (!available) return;
         String node = configManager.getMainConfig().getString("luckperms.rank1-permission", "polarsmp.rank1");
         try {
-            luckPerms.getUserManager().modifyUser(uuid, user -> {
-                user.data().add(Node.builder(node).build());
-            });
+            net.luckperms.api.LuckPerms api = Bukkit.getServicesManager().load(net.luckperms.api.LuckPerms.class);
+            if (api != null) {
+                api.getUserManager().modifyUser(uuid, user -> {
+                    user.data().add(net.luckperms.api.node.Node.builder(node).build());
+                });
+            }
         } catch (Exception e) {
             plugin.getLogger().log(Level.WARNING, "Failed to add Rank 1 permission via LuckPerms", e);
         }
@@ -66,9 +77,12 @@ public final class LuckPermsHook {
         if (!available) return;
         String node = configManager.getMainConfig().getString("luckperms.rank1-permission", "polarsmp.rank1");
         try {
-            luckPerms.getUserManager().modifyUser(uuid, user -> {
-                user.data().remove(Node.builder(node).build());
-            });
+            net.luckperms.api.LuckPerms api = Bukkit.getServicesManager().load(net.luckperms.api.LuckPerms.class);
+            if (api != null) {
+                api.getUserManager().modifyUser(uuid, user -> {
+                    user.data().remove(net.luckperms.api.node.Node.builder(node).build());
+                });
+            }
         } catch (Exception e) {
             plugin.getLogger().log(Level.WARNING, "Failed to remove Rank 1 permission via LuckPerms", e);
         }

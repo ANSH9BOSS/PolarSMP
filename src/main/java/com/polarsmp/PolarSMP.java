@@ -87,7 +87,11 @@ public final class PolarSMP extends JavaPlugin {
 
         // ── Step 4: Initialize integrations ───────────────────────
         vaultHook = new VaultHook(this, configManager);
-        luckPermsHook = new LuckPermsHook(this, configManager);
+        if (Bukkit.getPluginManager().isPluginEnabled("LuckPerms")) {
+            luckPermsHook = new LuckPermsHook(this, configManager);
+        } else {
+            luckPermsHook = null;
+        }
 
         // ── Step 5: Initialize utilities ──────────────────────────
         antiFarmTracker = new AntiFarmTracker(this, configManager, dataStore);
