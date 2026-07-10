@@ -85,9 +85,9 @@ resource-pack:
   # Enable automatic resource pack delivery to players on join
   enabled: true
   # Direct download URL to the resource pack .zip file
-  url: "https://github.com/ANSH9BOSS/PolarSMP/releases/download/v1.0.0/resourcepack.zip"
+  url: "https://github.com/ANSH9BOSS/PolarSMP/releases/download/v1.1.0/resourcepack.zip"
   # SHA-1 hash of the resource pack file (required for caching)
-  hash: "ca60c0d5464034d06828a33ffbcdf6fd15ba341e"
+  hash: "3dcfb7ffce2a58547648cbdaedc2bc5ec7ded5e4"
   # Message shown to player while pack is loading
   loading-message: "<gradient:#FFD700:#FFA500>Loading PolarSMP resource pack...</gradient>"
 
