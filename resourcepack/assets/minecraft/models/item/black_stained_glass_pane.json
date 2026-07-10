@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "minecraft:item/black_stained_glass_pane"
+  },
+  "overrides": [
+    { "predicate": { "custom_model_data": 1004 }, "model": "minecraft:item/custom/gui_border" }
+  ]
+}
