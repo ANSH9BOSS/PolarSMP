@@ -97,7 +97,7 @@ public final class PolarSMPCommand implements CommandExecutor, TabCompleter {
         String papiStatus = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI") ? "<green>Linked</green>" : "<red>Not Found</red>";
 
         sender.sendMessage(PolarSMP.miniMessage().deserialize("<gradient:#FFD700:#FFA500>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</gradient>"));
-        sender.sendMessage(PolarSMP.miniMessage().deserialize("<bold><gradient:#FFD700:#FFA500>    ✦ PolarSMP v1.0.0 Info card ✦</gradient></bold>"));
+        sender.sendMessage(PolarSMP.miniMessage().deserialize("<bold><gradient:#FFD700:#FFA500>    ✦ PolarSMP v" + plugin.getDescription().getVersion() + " Info card ✦</gradient></bold>"));
         sender.sendMessage(PolarSMP.miniMessage().deserialize(""));
         sender.sendMessage(PolarSMP.miniMessage().deserialize("<gray>  Developer: </gray><gold>ANSH9BOSS</gold>"));
         sender.sendMessage(PolarSMP.miniMessage().deserialize("<gray>  Season Status: </gray>" + seasonStatus));
